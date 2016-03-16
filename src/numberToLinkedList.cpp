@@ -14,11 +14,27 @@ NOTES: For negative numbers ignore negative sign.
 #include <stdio.h>
 #include <malloc.h>
 
-struct node {
+typedef struct node {
 	int num;
-	struct node *next;
+	node *next;
 };
+node * newNode(int num) {
+	node *temp = (node *)malloc(sizeof(node));
+	temp->num = num;
+	temp->next = NULL;
+	return temp;
+}
+node * numberToLinkedList(int N) {
 
-struct node * numberToLinkedList(int N) {
-	return NULL;
+	if (N < 0)
+		N = N*(-1);
+	node *head = newNode(N % 10);
+	N /= 10;
+	while (N) {
+		node *temp = newNode(N % 10);
+		temp->next = head;
+		head = temp;
+		N /= 10;
+	}
+	return head;
 }
